@@ -1,6 +1,6 @@
 # SIPTS lib-shell
 
- Library containing shell scripts shared among components of SIPTS. 
+ Library containing shell scripts shared among components of SIPTS.
 
 # Usage
 
@@ -10,4 +10,4 @@ If the project has been cloned into `my-project`, `lib-shell` must be cloned as 
 
 # Docker
 
-The default docker entyrpoint script for all conainers is located at `docker/sipts_entyrpoint.sh`.
+The default docker entrypoint script for all containers is located at `Docker/sipts_entyrpoint.sh`.
