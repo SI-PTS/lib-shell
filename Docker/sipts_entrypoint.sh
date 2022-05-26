@@ -4,11 +4,7 @@
 #
 # The script does:
 #
-# 1) print container's
-#    a) name, expected in $SIPTS_CONTAINER_NAME
-#    b) version, expected in $SIPTS_CONTAINER_VERSION
-#    c) commit, expected in $SIPTS_CONTAINER_COMMIT
-#    d) build timestamp, expecte in $SIPTS_CONTAINER_BUILDTIME
+# 1) source and print meta information from ./sipts.sh
 # 2) print the containers environment
 # 3) execute the containers found in $SIPTS_CONTAINER_ENTRYPOINT
 #
@@ -18,8 +14,8 @@
 # working directory, usually /app. The containers own
 # entrypoint script must also be placed in /app.
 #
-# Startup will fail, if any of the $SIPTS_CONTAINER_*
-# variables mentioned above is not present or empty.
+# The source file sipts.sh must be present in the container'#!/bin/sh
+# working directory, or startup will fail.
 
 # Log a JSON string to the console.
 #
@@ -35,7 +31,7 @@
 log_json() {
   level="\"level\":\"${1}\""
   msg="\"msg\":\"${2}\""
-  time="\"time\":\"$(date +"%Y-%m-%dT%H:%M:%S%Z" --universal)\""
+  time="\"time\":\"$(date +"%Y-%m-%dT%H:%M:%S%Z" --utc)\""
   if [ $# = 2 ]; then
     echo "{${level},${time},${msg}}"
   elif [ $# = 4 ]; then
@@ -69,8 +65,11 @@ print_var() {
     log_info "Printing ${var}." "${var}" "${val}"
 }
 
+# Source ./sipts.sh
+. ./sipts.sh
+
 # Print container variables.
-for v in SIPTS_CONTAINER_NAME SIPTS_CONTAINER_VERSION SIPTS_CONTAINER_COMMIT SIPTS_CONTAINER_BUILDTIME
+for v in SIPTS_CONTAINER_NAME SIPTS_CONTAINER_VERSION
 do
   print_var "${v}"
 done
